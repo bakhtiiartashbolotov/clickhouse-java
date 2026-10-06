@@ -1,0 +1,12 @@
+-- SQL oracle for the nine non-null, hand-constructed RowBinary cells.
+-- Verified with official ClickHouse 25.8.13.73; no JSON-as-string setting.
+SELECT version();
+SELECT 'flat', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON', unhex('0201610901000000047465787415017a'));
+SELECT 'paths', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON', unhex('0203612e78090100000003612e7915017a'));
+SELECT 'declared-tuple', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON(a Tuple(x Int32, y String))', unhex('01016101000000017a'));
+SELECT 'dynamic-xy', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON', unhex('010161200201780901791501000000017a'));
+SELECT 'dynamic-uv', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON', unhex('010161200201750901761501000000017a'));
+SELECT 'nullable-array', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON', unhex('01056974656d731e2309030001000000010002000000'));
+SELECT 'tuple-array', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON', unhex('01056974656d731e20020178090179150201000000017a020000000177'));
+SELECT 'literal-map-key', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON(m Map(String, Int32))', unhex('01016d0103612e6201000000'));
+SELECT 'empty', toJSONString(j), JSONAllPathsWithTypes(j) FROM format('RowBinary', 'j JSON', unhex('00'));
